@@ -1,0 +1,59 @@
+/*
+  wire.css - wireframe mode. Only imported by src/dev/wireframe.astro (dev only),
+  so it never ships. Every feature root carries data-feature="<name>"; this turns
+  the page into grey boxes with the feature name printed on top.
+  Overrides utilities on purpose, so it is unlayered and uses !important.
+*/
+.wire {
+  --wire-bar: var(--surface-3);
+}
+.wire body {
+  background: var(--surface-1) !important;
+}
+.wire [data-feature] {
+  position: relative;
+  margin: 12px var(--gutter);
+  padding: 44px 24px 24px;
+  min-height: 140px;
+  background: var(--surface-2) !important;
+  border: 1px dashed var(--line-strong) !important;
+  border-radius: var(--radius-md);
+}
+.wire [data-feature]::before {
+  content: attr(data-feature);
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  padding: 2px 10px;
+  background: var(--paper);
+  color: var(--ink-0);
+  border-radius: var(--radius-sm);
+  font: 600 12px/1.6 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.wire [data-feature] :is(h1, h2, h3, h4, p, dt, dd, blockquote, label, summary, cite, figcaption) {
+  color: transparent !important;
+  background: var(--wire-bar) !important;
+  border-radius: var(--radius-sm);
+}
+.wire [data-feature] :is(a, button, .field) {
+  color: transparent !important;
+  background: var(--wire-bar) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-sm);
+}
+.wire [data-feature] :is(img, svg) {
+  opacity: 0.12;
+}
+.wire [data-feature] * {
+  animation: none !important;
+}
+.wire-note {
+  margin: 16px var(--gutter) 0;
+  font: 500 13px/1.5 var(--font-mono);
+  color: var(--text-muted);
+}
+.wire [data-feature] :is(span, li, time, .label) {
+  color: transparent !important;
+}

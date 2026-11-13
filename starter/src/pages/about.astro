@@ -1,0 +1,25 @@
+---
+/* /about/ - built for every siteType. Linked in nav and indexed only for siteType "website". */
+import Base from '@/layouts/Base.astro';
+import PageHeading from '@/components/ui/PageHeading.astro';
+import About from '@/features/about/About.astro';
+import Cta from '@/features/cta/Cta.astro';
+import { siteType } from '@/config/site';
+import { pages } from '@/content/pages';
+import { about } from '@/content/about';
+import { person, webPage } from '@/lib/schema';
+
+const p = pages.about;
+---
+
+<Base
+  title={p.title}
+  description={p.description}
+  noindex={siteType !== 'website'}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about/' }]}
+  schema={[webPage({ path: '/about/', title: p.title, description: p.description }), person({ ...about.person, image: about.image.src })]}
+>
+  <PageHeading title={p.h1} lead={p.lead} />
+  <About />
+  <Cta />
+</Base>

@@ -1,0 +1,31 @@
+---
+/* Work: first project large, the rest stacked beside it. Image alt text comes from content/work.ts. */
+import Section from '@/components/ui/Section.astro';
+import { work } from '@/content/work';
+const [first, ...rest] = work.items;
+---
+
+<Section feature="work" heading={work.heading} lead={work.lead}>
+  <div class="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-14">
+    <article>
+      <img src={first.image.src} alt={first.image.alt} width="900" height="620" loading="lazy" class="aspect-[900/620] w-full rounded-lg border border-line object-cover" />
+      <p class="label mt-5">{first.year}</p>
+      <h3 class="mt-1 text-2xl">{first.title}</h3>
+      <p class="mt-2 max-w-prose text-muted">{first.summary}</p>
+      <p class="mt-3 text-sm">{first.result}</p>
+    </article>
+    <div class="flex flex-col gap-10">
+      {
+        rest.map((w) => (
+          <article>
+            <img src={w.image.src} alt={w.image.alt} width="900" height="620" loading="lazy" class="aspect-[900/620] w-full rounded-lg border border-line object-cover" />
+            <p class="label mt-5">{w.year}</p>
+            <h3 class="mt-1 text-xl">{w.title}</h3>
+            <p class="mt-2 text-muted">{w.summary}</p>
+            <p class="mt-3 text-sm">{w.result}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</Section>

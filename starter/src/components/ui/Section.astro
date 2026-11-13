@@ -1,0 +1,31 @@
+---
+/*
+  Feature root. Carries id (anchor target) and data-feature (wireframe label).
+  Pass a heading to get a standard h2 with an optional lead paragraph (left aligned).
+*/
+import Container from './Container.astro';
+
+interface Props {
+  feature: string;
+  heading?: string;
+  lead?: string;
+  tone?: 'ground' | 'raised';
+  class?: string;
+}
+const { feature, heading, lead, tone = 'ground', class: className = '' } = Astro.props;
+const bg = tone === 'raised' ? 'bg-surface-1 border-y border-line' : '';
+---
+
+<section id={feature} data-feature={feature} class={`py-[var(--section-y)] ${bg} ${className}`}>
+  <Container>
+    {
+      heading && (
+        <div class="mb-12 max-w-2xl md:mb-16">
+          <h2 class="text-3xl">{heading}</h2>
+          {lead && <p class="mt-4 text-lg text-muted">{lead}</p>}
+        </div>
+      )
+    }
+    <slot />
+  </Container>
+</section>

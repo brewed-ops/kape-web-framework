@@ -1,0 +1,17 @@
+---
+/* The h1 for inner pages. Home/funnel pages get theirs from the Hero feature. */
+import Container from './Container.astro';
+
+interface Props {
+  title: string;
+  lead?: string;
+}
+const { title, lead } = Astro.props;
+---
+
+<div class="pt-16 pb-4 md:pt-24">
+  <Container>
+    <h1 class="max-w-[20ch] text-3xl md:text-display">{title}</h1>
+    {lead && <p class="mt-5 max-w-xl text-lg text-muted">{lead}</p>}
+  </Container>
+</div>

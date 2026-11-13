@@ -1,0 +1,17 @@
+---
+/*
+  Cloudflare Turnstile widget. Needs PUBLIC_TURNSTILE_SITE_KEY (src/lib/env.ts).
+  The api.js script loads from challenges.cloudflare.com, which the CSP allows for
+  script-src and frame-src. It is an external script, so no inline-script exception is needed.
+*/
+import { publicEnv } from '@/lib/env';
+---
+
+{
+  publicEnv.turnstileSiteKey && (
+    <>
+      <div class="cf-turnstile" data-sitekey={publicEnv.turnstileSiteKey} data-theme="dark" data-appearance="always" />
+      <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+    </>
+  )
+}

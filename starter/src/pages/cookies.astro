@@ -1,0 +1,47 @@
+---
+import Base from '@/layouts/Base.astro';
+import LegalDoc from '@/components/ui/LegalDoc.astro';
+import { site } from '@/config/site';
+import { cookies } from '@/content/legal';
+import { webPage } from '@/lib/schema';
+---
+
+<Base
+  title={cookies.title}
+  description={cookies.description}
+  crumbs={[{ name: 'Home', path: '/' }, { name: cookies.title, path: '/cookies/' }]}
+  schema={[webPage({ path: '/cookies/', title: cookies.title, description: cookies.description })]}
+>
+  <LegalDoc h1={cookies.h1} intro={cookies.intro} updated={site.legal.cookiesUpdated} sections={cookies.sections}>
+    <section class="mt-12">
+      <h2 class="text-xl">{cookies.tableHeading}</h2>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[40rem] border-collapse text-left text-sm">
+          <caption class="sr-only">{cookies.tableHeading}</caption>
+          <thead>
+            <tr class="border-b border-line-strong">
+              <th scope="col" class="py-3 pr-4 font-medium">Name</th>
+              <th scope="col" class="py-3 pr-4 font-medium">Provider</th>
+              <th scope="col" class="py-3 pr-4 font-medium">Purpose</th>
+              <th scope="col" class="py-3 pr-4 font-medium">Lasts</th>
+              <th scope="col" class="py-3 font-medium">Consent</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+            {
+              cookies.cookies.map((c) => (
+                <tr class="border-b border-line align-top">
+                  <th scope="row" class="py-3 pr-4 font-normal text-fg">{c.name}</th>
+                  <td class="py-3 pr-4">{c.provider}</td>
+                  <td class="py-3 pr-4">{c.purpose}</td>
+                  <td class="py-3 pr-4">{c.duration}</td>
+                  <td class="py-3">{c.consent}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </LegalDoc>
+</Base>

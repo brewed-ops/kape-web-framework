@@ -1,0 +1,73 @@
+---
+/*
+  Base.astro - html shell: head (Seo + JSON-LD), skip link, landmarks.
+  chrome=true  : renders Header + <main> + Footer around the slot (inner pages).
+  chrome=false : renders the slot only; <Sections> supplies its own header/main/footer.
+*/
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '@/styles/global.css';
+
+import Seo from '@/components/seo/Seo.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import Header from '@/features/header/Header.astro';
+import Footer from '@/features/footer/Footer.astro';
+import { site, siteType } from '@/config/site';
+import { variants } from '@/config/sections';
+import { breadcrumbList, type Crumb, type JsonLdNode } from '@/lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Home page: title is used as written instead of "<title> | <site name>". */
+  home?: boolean;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  chrome?: boolean;
+  htmlClass?: string;
+  /** Breadcrumb trail for inner pages, home first. Emits BreadcrumbList. */
+  crumbs?: Crumb[];
+  /** Extra schema.org nodes for this page. */
+  schema?: JsonLdNode[];
+}
+
+const { title, description, home = false, image, imageAlt, noindex = false, chrome = true, htmlClass = '', crumbs, schema = [] } = Astro.props;
+const fullTitle = home ? title : `${title} | ${site.name}`;
+const nodes: JsonLdNode[] = [...schema];
+if (crumbs && crumbs.length > 1) nodes.push(breadcrumbList(crumbs));
+const v = variants[siteType] ?? {};
+---
+
+<!doctype html>
+<html lang={site.language} class={htmlClass}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo title={fullTitle} description={description} image={image} imageAlt={imageAlt} noindex={noindex} />
+    {nodes.map((n) => <JsonLd data={n} />)}
+  </head>
+  <body class="min-h-[100dvh]">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
+    >
+      Skip to content
+    </a>
+    {
+      chrome ? (
+        <>
+          <Header variant={v.header} />
+          <main id="main">
+            <slot />
+          </main>
+          <Footer variant={v.footer} />
+        </>
+      ) : (
+        <slot />
+      )
+    }
+  </body>
+</html>

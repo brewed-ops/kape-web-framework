@@ -1,0 +1,31 @@
+{
+  "name": "kape-web-starter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Starter for static client websites: Astro 7, Tailwind 4, TypeScript, security and SEO baked in.",
+  "engines": { "node": ">=22.23.4" },
+  "scripts": {
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:dist": "node scripts/check-dist.mjs",
+    "check:launch": "node scripts/check-dist.mjs --launch",
+    "check:headers": "node scripts/check-headers.mjs",
+    "new:feature": "node scripts/new-feature.mjs",
+    "make:og": "node scripts/make-og.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/geist-mono": "5.3.0",
+    "astro": "7.4.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@tailwindcss/vite": "4.3.5",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3"
+  }
+}

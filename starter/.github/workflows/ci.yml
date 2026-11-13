@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      # Cloudflare's always-pass dummy key. Real keys are set in the host's dashboard, never here.
+      PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # gitleaks scans history, not just the latest commit
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install (lockfile only)
+        run: npm ci
+
+      - name: Type check
+        run: npx astro check
+
+      - name: Build
+        run: npm run build
+
+      - name: Check dist (secrets, source maps, dotfiles, archives, dev routes)
+        run: npm run check:dist
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
+
+      - name: Secret scan (full git history)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Organisation-owned repos need a free GITLEAKS_LICENSE secret. Personal repos do not.
+
+      - name: Lighthouse CI (budgets in lighthouserc.json, run on the built dist)
+        run: npx --yes @lhci/cli@0.16.1 autorun --config=lighthouserc.json

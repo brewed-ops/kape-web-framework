@@ -1,0 +1,44 @@
+---
+/*
+  Hero. Left aligned. Two columns from md: headline block left, key facts right.
+  variant="optin" (funnels): the headline is the lead magnet and the button scrolls to #optin.
+  The page's only h1 lives here (inner pages use <PageHeading>).
+*/
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import { siteType, primaryAction } from '@/config/site';
+import { hero } from '@/content/hero';
+
+interface Props {
+  variant?: string;
+}
+const { variant } = Astro.props;
+const optin = variant === 'optin';
+const headline = optin ? hero.optin.headline : hero.headline;
+const sub = optin ? hero.optin.sub : hero.sub;
+const primary = optin ? { label: hero.optin.button, href: '#optin' } : primaryAction[siteType];
+const secondary = hero.secondary[siteType];
+---
+
+<section id="hero" data-feature="hero" class="pt-16 pb-[var(--section-y)] md:pt-24">
+  <Container class="grid gap-14 md:grid-cols-[1.5fr_1fr] md:items-end md:gap-16">
+    <div class="rise">
+      <h1 class="max-w-[20ch] text-display">{headline}</h1>
+      <p class="mt-6 max-w-xl text-lg text-muted">{sub}</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <Button href={primary.href} arrow>{primary.label}</Button>
+        <Button href={secondary.href} variant="secondary">{secondary.label}</Button>
+      </div>
+    </div>
+    <dl class="rise divide-y divide-line border-y border-line [animation-delay:120ms]">
+      {
+        hero.facts.map((f) => (
+          <div class="py-4">
+            <dt class="label">{f.label}</dt>
+            <dd class="mt-1 text-base">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Container>
+</section>

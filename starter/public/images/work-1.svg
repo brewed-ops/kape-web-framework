@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" width="900" height="620" role="img" aria-label="Placeholder image">
+  <!-- PLACEHOLDER. Replace with a real photo (keep the same file name or update src in src/content/work.ts). Colors mirror tokens.css. -->
+  <rect width="900" height="620" fill="#0C1326"/>
+  <rect x="60" y="60" width="780" height="500" fill="none" stroke="#2A3350" stroke-width="2"/>
+  <path d="M60 560 330 300l140 140 110-90 260 210z" fill="#131C36"/>
+  <circle cx="660" cy="190" r="56" fill="#2BF08A"/>
+</svg>

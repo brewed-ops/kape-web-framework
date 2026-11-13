@@ -1,0 +1,49 @@
+---
+/*
+  Renders the ordered feature list for the active siteType (src/config/sections.ts).
+  Features are auto-discovered from src/features/<name>/*.astro, so a feature made with
+  `npm run new:feature <name>` works as soon as its name is added to sections.ts.
+  header/footer sit outside <main> so the landmarks stay correct.
+*/
+import { sections, variants } from '@/config/sections';
+import { siteType } from '@/config/site';
+
+const modules = import.meta.glob('/src/features/*/*.astro', { eager: true }) as Record<string, { default: any }>;
+const registry: Record<string, any> = {};
+for (const [path, mod] of Object.entries(modules)) {
+  const name = path.match(/\/features\/([^/]+)\//)?.[1];
+  if (name) registry[name] = mod.default;
+}
+
+const list = sections[siteType];
+for (const name of list) {
+  if (!registry[name]) {
+    throw new Error(`[sections] "${name}" is listed for siteType "${siteType}" but src/features/${name}/ has no component.`);
+  }
+}
+const v = variants[siteType] ?? {};
+const head = list.filter((n) => n === 'header');
+const foot = list.filter((n) => n === 'footer');
+const body = list.filter((n) => n !== 'header' && n !== 'footer');
+---
+
+{
+  head.map((name) => {
+    const C = registry[name];
+    return <C variant={v[name]} />;
+  })
+}
+<main id="main">
+  {
+    body.map((name) => {
+      const C = registry[name];
+      return <C variant={v[name]} />;
+    })
+  }
+</main>
+{
+  foot.map((name) => {
+    const C = registry[name];
+    return <C variant={v[name]} />;
+  })
+}

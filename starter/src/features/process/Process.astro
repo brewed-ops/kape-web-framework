@@ -1,0 +1,19 @@
+---
+/* Process: numbered steps. Stacks on mobile, runs across on desktop, separated by hairlines. */
+import Section from '@/components/ui/Section.astro';
+import { howItWorks } from '@/content/process';
+---
+
+<Section feature="process" heading={howItWorks.heading} lead={howItWorks.lead} tone="raised">
+  <ol class="grid border-t border-line-strong md:grid-cols-4">
+    {
+      howItWorks.steps.map((s, i) => (
+        <li class="border-b border-line py-8 md:border-b-0 md:py-8 md:pr-8">
+          <span class="label">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="mt-4 text-xl">{s.title}</h3>
+          <p class="mt-2 text-muted">{s.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

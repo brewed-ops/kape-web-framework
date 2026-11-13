@@ -1,0 +1,21 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# build + tooling
+dist
+node_modules
+.astro
+.vercel
+.netlify
+.wrangler
+
+# agent/review scratch
+.review
+.work
+
+# os/editor
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,7 @@
+# RFC 9116 security contact. Researchers: report vulnerabilities here instead of posting them.
+# TODO(owner): put a mailbox you actually read. Renew "Expires" at least once a year (a calendar reminder works).
+Contact: mailto:security@larkfielddental.example
+Expires: 2027-11-13T00:00:00.000Z
+Preferred-Languages: en
+# TODO(owner): update to the final domain
+Canonical: https://larkfielddental.example/.well-known/security.txt

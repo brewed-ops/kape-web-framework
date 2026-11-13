@@ -1,0 +1,11 @@
+---
+/* Home. Renders the section list for the active siteType (src/config/sections.ts). */
+import Base from '@/layouts/Base.astro';
+import Sections from '@/components/ui/Sections.astro';
+import { site } from '@/config/site';
+import { business, website } from '@/lib/schema';
+---
+
+<Base home chrome={false} title={site.seo.homeTitle} description={site.seo.homeDescription} schema={[business(), website()]}>
+  <Sections />
+</Base>

@@ -1,0 +1,22 @@
+---
+/* /contact/ - built for every siteType. Linked in nav and indexed only for siteType "website". */
+import Base from '@/layouts/Base.astro';
+import PageHeading from '@/components/ui/PageHeading.astro';
+import Contact from '@/features/contact/Contact.astro';
+import { siteType } from '@/config/site';
+import { pages } from '@/content/pages';
+import { webPage } from '@/lib/schema';
+
+const p = pages.contact;
+---
+
+<Base
+  title={p.title}
+  description={p.description}
+  noindex={siteType !== 'website'}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }]}
+  schema={[webPage({ path: '/contact/', title: p.title, description: p.description })]}
+>
+  <PageHeading title={p.h1} lead={p.lead} />
+  <Contact />
+</Base>

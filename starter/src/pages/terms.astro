@@ -1,0 +1,16 @@
+---
+import Base from '@/layouts/Base.astro';
+import LegalDoc from '@/components/ui/LegalDoc.astro';
+import { site } from '@/config/site';
+import { terms } from '@/content/legal';
+import { webPage } from '@/lib/schema';
+---
+
+<Base
+  title={terms.title}
+  description={terms.description}
+  crumbs={[{ name: 'Home', path: '/' }, { name: terms.title, path: '/terms/' }]}
+  schema={[webPage({ path: '/terms/', title: terms.title, description: terms.description })]}
+>
+  <LegalDoc h1={terms.h1} intro={terms.intro} updated={site.legal.termsUpdated} sections={terms.sections} />
+</Base>

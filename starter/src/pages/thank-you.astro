@@ -1,0 +1,17 @@
+---
+/* Form success page. Never indexed, never in the sitemap (astro.config.mjs filter). */
+import Base from '@/layouts/Base.astro';
+import PageHeading from '@/components/ui/PageHeading.astro';
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import { pages } from '@/content/pages';
+
+const p = pages.thankYou;
+---
+
+<Base title={p.title} description={p.description} noindex>
+  <PageHeading title={p.h1} lead={p.lead} />
+  <Container class="pt-8 pb-[var(--section-y)]">
+    <Button href="/" variant="secondary">{p.back}</Button>
+  </Container>
+</Base>

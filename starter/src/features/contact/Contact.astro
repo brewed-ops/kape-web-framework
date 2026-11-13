@@ -1,0 +1,74 @@
+---
+/*
+  Contact form. Plain HTML POST (works with JS off) to functions/api/contact.ts, which
+  verifies Turnstile, validates, forwards to your webhook and redirects to /thank-you/.
+  `company_website` is the honeypot: real visitors never see it; bots fill it.
+*/
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Field from '@/components/ui/Field.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Turnstile from '@/components/ui/Turnstile.astro';
+import { site } from '@/config/site';
+import { contact } from '@/content/contact';
+const L = contact.labels;
+const a = site.address;
+---
+
+<section id="contact" data-feature="contact" class="py-[var(--section-y)]">
+  <Container class="grid gap-14 md:grid-cols-[1.3fr_1fr] md:gap-20">
+    <div>
+      <h2 class="text-3xl">{contact.heading}</h2>
+      <p class="mt-4 max-w-xl text-lg text-muted">{contact.lead}</p>
+      <form method="post" action={site.forms.action} class="mt-10 space-y-5">
+        <input type="hidden" name="form" value="contact" />
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="company_website">{L.honeypot}</label>
+          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <Field id="contact-name" name="name" label={L.name} required maxlength={100} autocomplete="name" />
+        <Field id="contact-email" name="email" label={L.email} type="email" required maxlength={254} autocomplete="email" />
+        <Field id="contact-message" name="message" label={L.message} type="textarea" required maxlength={2000} />
+        <Turnstile />
+        <div class="flex flex-wrap items-center gap-5">
+          <Button type="submit">{L.submit}</Button>
+          <p class="text-sm text-muted">{L.privacy} <a href="/privacy/" class="underline underline-offset-4 hover:text-fg">{L.privacyLink}</a>.</p>
+        </div>
+      </form>
+    </div>
+    <div class="md:pt-[7.5rem]">
+      <h3 class="label mb-4">{L.detailsHeading}</h3>
+      <ul class="divide-y divide-line border-y border-line">
+        {
+          a && (
+            <li class="flex gap-4 py-5">
+              <Icon name="map-pin" class="mt-1 shrink-0 text-muted" />
+              <div>
+                <p class="label">{L.address}</p>
+                <p class="mt-1">{a.street}, {a.city}, {a.region} {a.postalCode}</p>
+              </div>
+            </li>
+          )
+        }
+        <li class="flex gap-4 py-5">
+          <Icon name="phone" class="mt-1 shrink-0 text-muted" />
+          <div>
+            <p class="label">{L.phone}</p>
+            <p class="mt-1"><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="hover:underline">{site.phoneDisplay}</a></p>
+          </div>
+        </li>
+        <li class="flex gap-4 py-5">
+          <Icon name="mail" class="mt-1 shrink-0 text-muted" />
+          <div>
+            <p class="label">{L.email2}</p>
+            <p class="mt-1 break-all"><a href={`mailto:${site.email}`} class="hover:underline">{site.email}</a></p>
+          </div>
+        </li>
+        <li class="py-5 pl-9">
+          <p class="label">{L.hours}</p>
+          <p class="mt-1">{site.hoursDisplay}</p>
+        </li>
+      </ul>
+    </div>
+  </Container>
+</section>

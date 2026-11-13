@@ -1,0 +1,28 @@
+---
+/* Services as a ruled list: number, title, text, optional price. Not a card grid. */
+import Container from '@/components/ui/Container.astro';
+import { services } from '@/content/services';
+---
+
+<section id="services" data-feature="services" class="py-[var(--section-y)]">
+  <Container class="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-16">
+    <div class="md:sticky md:top-28 md:self-start">
+      <h2 class="text-3xl">{services.heading}</h2>
+      <p class="mt-4 text-lg text-muted">{services.lead}</p>
+    </div>
+    <ol class="divide-y divide-line border-y border-line">
+      {
+        services.items.map((s, i) => (
+          <li class="grid gap-3 py-7 md:grid-cols-[3rem_1fr_auto] md:gap-6">
+            <span class="label pt-1">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="text-xl">{s.title}</h3>
+              <p class="mt-2 max-w-prose text-muted">{s.text}</p>
+            </div>
+            {s.from && <span class="label pt-1 md:text-right">{s.from}</span>}
+          </li>
+        ))
+      }
+    </ol>
+  </Container>
+</section>

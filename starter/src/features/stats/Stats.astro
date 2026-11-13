@@ -1,0 +1,19 @@
+---
+import Container from '@/components/ui/Container.astro';
+import { stats } from '@/content/stats';
+---
+
+<section id="stats" data-feature="stats" class="border-y border-line bg-surface-1 py-[var(--section-y)]">
+  <Container>
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+      {
+        stats.items.map((s) => (
+          <div class="flex flex-col-reverse gap-2">
+            <dt class="label">{s.label}</dt>
+            <dd class="text-3xl font-semibold tracking-tight">{s.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Container>
+</section>

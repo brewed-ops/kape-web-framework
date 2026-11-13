@@ -1,0 +1,13 @@
+---
+import Container from '@/components/ui/Container.astro';
+import { logos } from '@/content/logos';
+---
+
+<section id="logos" data-feature="logos" class="border-y border-line bg-surface-1 py-12">
+  <Container class="flex flex-col gap-6 md:flex-row md:items-center md:gap-12">
+    <h2 class="label shrink-0 md:w-48">{logos.heading}</h2>
+    <ul class="grid flex-1 grid-cols-2 gap-x-8 gap-y-4 md:grid-cols-5">
+      {logos.names.map((n) => <li class="font-mono text-sm text-muted">{n}</li>)}
+    </ul>
+  </Container>
+</section>

@@ -1,0 +1,42 @@
+---
+/* Opt-in form for funnels. Same endpoint as Contact (functions/api/contact.ts) with form=optin. */
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Field from '@/components/ui/Field.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Turnstile from '@/components/ui/Turnstile.astro';
+import { site } from '@/config/site';
+import { optin } from '@/content/optin';
+const L = optin.labels;
+---
+
+<section id="optin" data-feature="optin" class="border-y border-line bg-surface-1 py-[var(--section-y)]">
+  <Container class="grid gap-12 md:grid-cols-[1fr_1fr] md:gap-20">
+    <div>
+      <h2 class="max-w-[18ch] text-3xl">{optin.heading}</h2>
+      <p class="mt-4 max-w-xl text-lg text-muted">{optin.lead}</p>
+      <ul class="mt-8 space-y-3">
+        {
+          optin.bullets.map((b) => (
+            <li class="flex gap-3">
+              <Icon name="check" size={18} class="mt-1 shrink-0 text-accent" />
+              <span>{b}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <form method="post" action={site.forms.action} class="space-y-5 rounded-lg border border-line-strong bg-surface-2 p-6 md:p-8">
+      <input type="hidden" name="form" value="optin" />
+      <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+        <label for="optin_company_website">{L.honeypot}</label>
+        <input id="optin_company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <Field id="optin-name" name="name" label={L.name} required maxlength={100} autocomplete="given-name" />
+      <Field id="optin-email" name="email" label={L.email} type="email" required maxlength={254} autocomplete="email" />
+      <Turnstile />
+      <Button type="submit" class="w-full">{L.submit}</Button>
+      <p class="text-sm text-muted">{L.privacy} <a href="/privacy/" class="underline underline-offset-4 hover:text-fg">{L.privacyLink}</a>.</p>
+    </form>
+  </Container>
+</section>

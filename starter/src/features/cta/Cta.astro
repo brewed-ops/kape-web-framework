@@ -1,0 +1,17 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import { siteType, primaryAction } from '@/config/site';
+import { cta } from '@/content/cta';
+const action = primaryAction[siteType];
+---
+
+<section id="cta" data-feature="cta" class="py-[var(--section-y)]">
+  <Container>
+    <div class="rounded-lg border border-line-strong bg-surface-2 p-8 md:p-14">
+      <h2 class="max-w-[20ch] text-3xl">{cta.heading}</h2>
+      <p class="mt-4 max-w-xl text-lg text-muted">{cta.text}</p>
+      <Button href={action.href} arrow class="mt-8">{action.label}</Button>
+    </div>
+  </Container>
+</section>

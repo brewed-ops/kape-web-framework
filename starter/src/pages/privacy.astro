@@ -1,0 +1,46 @@
+---
+import Base from '@/layouts/Base.astro';
+import LegalDoc from '@/components/ui/LegalDoc.astro';
+import { site } from '@/config/site';
+import { privacy } from '@/content/legal';
+import { webPage } from '@/lib/schema';
+---
+
+<Base
+  title={privacy.title}
+  description={privacy.description}
+  crumbs={[{ name: 'Home', path: '/' }, { name: privacy.title, path: '/privacy/' }]}
+  schema={[webPage({ path: '/privacy/', title: privacy.title, description: privacy.description })]}
+>
+  <LegalDoc h1={privacy.h1} intro={privacy.intro} updated={site.legal.privacyUpdated} sections={privacy.sections}>
+    <section class="mt-12">
+      <h2 class="text-xl">{privacy.processorsHeading}</h2>
+      <p class="mt-3 text-muted">{privacy.processorsIntro}</p>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[40rem] border-collapse text-left text-sm">
+          <caption class="sr-only">{privacy.processorsHeading}</caption>
+          <thead>
+            <tr class="border-b border-line-strong">
+              <th scope="col" class="py-3 pr-4 font-medium">Company</th>
+              <th scope="col" class="py-3 pr-4 font-medium">What it does</th>
+              <th scope="col" class="py-3 pr-4 font-medium">Data</th>
+              <th scope="col" class="py-3 font-medium">Where</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+            {
+              privacy.processors.map((p) => (
+                <tr class="border-b border-line align-top">
+                  <th scope="row" class="py-3 pr-4 font-normal text-fg">{p.name}</th>
+                  <td class="py-3 pr-4">{p.purpose}</td>
+                  <td class="py-3 pr-4">{p.data}</td>
+                  <td class="py-3">{p.location}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </LegalDoc>
+</Base>

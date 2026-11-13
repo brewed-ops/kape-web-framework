@@ -1,0 +1,35 @@
+---
+/* Link or button. Primary = flat accent fill. Secondary = hairline. Movement: transform only. */
+import Icon from './Icon.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  type?: 'button' | 'submit';
+  arrow?: boolean;
+  class?: string;
+}
+const { href, variant = 'primary', type = 'button', arrow = false, class: className = '' } = Astro.props;
+
+const base =
+  'group inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 text-base font-medium transition-transform duration-[var(--dur)] ease-spring active:scale-[0.98] motion-safe:hover:-translate-y-0.5';
+const look =
+  variant === 'primary'
+    ? 'bg-accent text-on-accent'
+    : 'border border-line-strong text-fg hover:border-fg';
+const cls = `${base} ${look} ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} class={cls}>
+      <slot />
+      {arrow && <Icon name="arrow-right" size={18} class="transition-transform duration-[var(--dur)] ease-spring group-hover:translate-x-0.5" />}
+    </a>
+  ) : (
+    <button type={type} class={cls}>
+      <slot />
+      {arrow && <Icon name="arrow-right" size={18} class="transition-transform duration-[var(--dur)] ease-spring group-hover:translate-x-0.5" />}
+    </button>
+  )
+}

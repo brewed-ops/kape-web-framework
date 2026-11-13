@@ -1,0 +1,20 @@
+---
+import Container from '@/components/ui/Container.astro';
+import { about } from '@/content/about';
+---
+
+<section id="about" data-feature="about" class="py-[var(--section-y)]">
+  <Container class="grid gap-12 md:grid-cols-[1fr_1.4fr] md:items-start md:gap-16">
+    <img src={about.image.src} alt={about.image.alt} width="720" height="860" loading="lazy" class="aspect-[720/860] w-full max-w-md rounded-lg border border-line object-cover" />
+    <div>
+      <h2 class="text-3xl">{about.heading}</h2>
+      <div class="mt-6 max-w-prose space-y-4 text-lg text-muted">
+        {about.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <p class="label mt-10">{about.person.name}, {about.person.jobTitle}</p>
+      <ul class="mt-4 divide-y divide-line border-y border-line">
+        {about.credentials.map((c) => <li class="py-3 text-sm">{c}</li>)}
+      </ul>
+    </div>
+  </Container>
+</section>

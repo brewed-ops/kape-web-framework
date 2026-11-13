@@ -1,0 +1,29 @@
+---
+/* /services/ - built for every siteType. Linked in nav and indexed only for siteType "website". */
+import Base from '@/layouts/Base.astro';
+import PageHeading from '@/components/ui/PageHeading.astro';
+import Services from '@/features/services/Services.astro';
+import Process from '@/features/process/Process.astro';
+import Pricing from '@/features/pricing/Pricing.astro';
+import Cta from '@/features/cta/Cta.astro';
+import { siteType } from '@/config/site';
+import { pages } from '@/content/pages';
+import { services } from '@/content/services';
+import { service, webPage } from '@/lib/schema';
+
+const p = pages.services;
+---
+
+<Base
+  title={p.title}
+  description={p.description}
+  noindex={siteType !== 'website'}
+  crumbs={[{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }]}
+  schema={[webPage({ path: '/services/', title: p.title, description: p.description }), ...services.items.map((s) => service({ name: s.title, description: s.text }))]}
+>
+  <PageHeading title={p.h1} lead={p.lead} />
+  <Services />
+  <Process />
+  <Pricing />
+  <Cta />
+</Base>

@@ -1,0 +1,37 @@
+---
+/*
+  Shared layout for privacy / terms / cookies. Structure only: the words live in
+  src/content/legal.ts and the "Last updated" date comes per document from site.ts `legal`.
+*/
+import Container from './Container.astro';
+import type { LegalSection } from '@/content/legal';
+
+interface Props {
+  h1: string;
+  intro: string;
+  updated: string;
+  sections: LegalSection[];
+}
+const { h1, intro, updated, sections } = Astro.props;
+const date = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${updated}T00:00:00Z`));
+---
+
+<article data-feature="legal" class="py-16 md:py-24">
+  <Container>
+    <div class="max-w-3xl">
+      <h1 class="text-3xl md:text-display">{h1}</h1>
+      <p class="label mt-5">Last updated: <time datetime={updated}>{date}</time></p>
+      <p class="mt-8 text-lg text-muted">{intro}</p>
+      {
+        sections.map((s) => (
+          <section class="mt-12">
+            <h2 class="text-xl">{s.heading}</h2>
+            {s.paragraphs?.map((p) => <p class="mt-3 text-muted">{p}</p>)}
+            {s.list && <ul class="mt-3 list-disc space-y-2 pl-5 text-muted">{s.list.map((i) => <li>{i}</li>)}</ul>}
+          </section>
+        ))
+      }
+      <slot />
+    </div>
+  </Container>
+</article>

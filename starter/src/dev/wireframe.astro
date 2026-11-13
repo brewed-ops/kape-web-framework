@@ -1,0 +1,17 @@
+---
+/*
+  /wireframe - injected by astro.config.mjs ONLY when the command is `dev`.
+  Renders the active siteType's sections as grey boxes labelled with the feature name.
+  Not under src/pages on purpose, so a production build can never pick it up.
+*/
+import '@/styles/wire.css';
+import Base from '@/layouts/Base.astro';
+import Sections from '@/components/ui/Sections.astro';
+import { siteType } from '@/config/site';
+import { sections } from '@/config/sections';
+---
+
+<Base chrome={false} htmlClass="wire" noindex title="Wireframe" description="Dev-only wireframe view.">
+  <p class="wire-note">Wireframe, siteType "{siteType}": {sections[siteType].join(' > ')}. Dev only, never built.</p>
+  <Sections />
+</Base>

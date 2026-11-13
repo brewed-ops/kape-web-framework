@@ -1,0 +1,24 @@
+---
+/* Label + input/textarea. Every input has a visible label (accessibility rule). */
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'textarea';
+  required?: boolean;
+  maxlength?: number;
+  autocomplete?: string;
+}
+const { id, name, label, type = 'text', required = false, maxlength, autocomplete } = Astro.props;
+---
+
+<div>
+  <label for={id} class="mb-2 block text-sm font-medium">{label}{required && <span class="sr-only"> (required)</span>}</label>
+  {
+    type === 'textarea' ? (
+      <textarea id={id} name={name} rows="5" required={required} maxlength={maxlength} autocomplete={autocomplete} class="field" />
+    ) : (
+      <input id={id} name={name} type={type} required={required} maxlength={maxlength} autocomplete={autocomplete} class="field" />
+    )
+  }
+</div>

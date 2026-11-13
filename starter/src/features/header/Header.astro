@@ -1,0 +1,59 @@
+---
+/*
+  Header. No JS: the mobile menu is a <details> element.
+  variant="minimal" (funnels): wordmark only, no navigation.
+*/
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { site, siteType, nav, primaryAction } from '@/config/site';
+import { header } from '@/content/header';
+
+interface Props {
+  variant?: string;
+}
+const { variant } = Astro.props;
+const minimal = variant === 'minimal';
+const links = nav[siteType];
+const action = primaryAction[siteType];
+---
+
+<header data-feature="header" class="sticky top-0 z-40 border-b border-line bg-ground">
+  <Container class="flex h-16 items-center justify-between gap-6">
+    <a href="/" class="text-lg font-semibold tracking-tight" aria-label={`${site.name}, ${header.homeLabel}`}>{site.name}</a>
+
+    {
+      !minimal && (
+        <>
+          <nav aria-label={header.navLabel} class="hidden items-center gap-8 md:flex">
+            {links.map((l) => (
+              <a href={l.href} class="text-sm text-muted transition-colors duration-[var(--dur-fast)] hover:text-fg">
+                {l.label}
+              </a>
+            ))}
+            <Button href={action.href} class="!min-h-10 !px-4 !text-sm">
+              {action.label}
+            </Button>
+          </nav>
+
+          <details class="group relative md:hidden">
+            <summary class="flex size-11 items-center justify-center rounded-md border border-line-strong" aria-label={header.menuLabel}>
+              <Icon name="menu" class="group-open:hidden" />
+              <Icon name="x" class="hidden group-open:block" />
+            </summary>
+            <nav aria-label={header.navLabel} class="absolute right-0 mt-3 flex w-[min(20rem,calc(100vw-2.5rem))] flex-col gap-1 rounded-lg border border-line-strong bg-surface-2 p-3">
+              {links.map((l) => (
+                <a href={l.href} class="rounded-md px-3 py-3 text-base hover:bg-surface-3">
+                  {l.label}
+                </a>
+              ))}
+              <Button href={action.href} class="mt-2">
+                {action.label}
+              </Button>
+            </nav>
+          </details>
+        </>
+      )
+    }
+  </Container>
+</header>
