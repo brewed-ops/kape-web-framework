@@ -2,13 +2,23 @@
 
 ## Look
 - The client's brand first. No brand yet: propose one palette (ground, ink, ONE accent) + one type family, show it on
-  the hero before building more. KAPE's own sites: Black #000412, Ice White #E8EEF2, Aurora Green #2BF08A.
+  the hero before building more. KAPE's own pages: warm ink #12100E, paper #F6F2EA, one amber #F0A726, film grain.
 - Tokens only (`src/styles/tokens.css`). A color used twice gets a token. Change a token at root, never per use.
 - Type: Geist / Satoshi / Cabinet Grotesk for display; Inter and Roboto never on a hero. Hero headline 5-10 words,
   2-3 lines, no orphan. Body 16-18px, line-height 1.6, max 70ch.
 - Space: 4px scale; section padding clamp(88px, ..., 160px); one container width; one gutter (16px on phones).
   Related things closer than unrelated things; never equal spacing everywhere.
 - Depth on dark = lighter surfaces + 1px hairlines, not shadows. On light = one soft shadow token.
+- Every section and every card in a grid has a visual anchor that matches its content: a real logo, a line icon
+  from the site's one icon set (a different, fitting icon per card), a number, or a real interface. Text-only
+  cards read as unfinished; owners notice before anything else.
+- Use the width: content in the container, a demo beside its text rather than under it, no dead strip on desktop.
+
+## Performance (part of the design, not after it)
+- Images ship at 2-3x their displayed size, never the source file (a 5000px logo shown at 30px is a failed audit).
+- A WebGL / canvas background runs only on a real GPU: check the renderer name (`WEBGL_debug_renderer_info`;
+  SwiftShader / llvmpipe / software = skip, keep a static ground) and load the library after that check. On a
+  machine without a GPU it blocks the page for seconds and sinks the Lighthouse score.
 
 ## Real interfaces (Stageshow)
 Any section that shows a product, a dashboard, a process or "how it works" gets a Stageshow demo (still or 10-16s
