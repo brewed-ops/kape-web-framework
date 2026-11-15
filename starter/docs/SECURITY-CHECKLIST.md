@@ -3,6 +3,8 @@
 Every item from the checklist, scoped three ways, with the file in this starter that handles it.
 Run it before launch and again after you add a form, an account system, or payments.
 
+This is a checklist, not a test suite. Scripts prove a few items (the quick commands below), the starter's code handles others, and the rest need a setting in the host dashboard or a person to check. A site has passed only when every row that applies has a verdict.
+
 How to read the table:
 
 - **Static site**: how the item applies to a plain static build (what this starter ships).

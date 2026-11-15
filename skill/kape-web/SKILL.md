@@ -9,7 +9,7 @@ Websites, not apps. Five phases, each ending at a gate. Every step has an owner:
 **YOU** = the user (or their client) decides, **AI** = you do it, **AUTO** = a script or CI proves it.
 Never skip a gate; never let the AI decide a YOU step.
 
-**Framework folder (`<home>`):** read the `HOME` file next to this SKILL.md; `install.py` writes the absolute path of
+**Framework folder (`<home>`):** read the `HOME` file next to this SKILL.md; `install.mjs` writes the absolute path of
 the downloaded KAPE Web Framework folder there. If `HOME` is missing or the path no longer exists, ask once:
 "Where did you download the KAPE Web Framework folder?", check that `<that path>/starter/package.json` exists, and
 write the path to `HOME`. Inside it: `starter/` (copied for every site) and `skill/` (this skill's source). The
@@ -96,6 +96,7 @@ Per section, in order:
    - In the Cloudflare dashboard set `TURNSTILE_SECRET`, `CONTACT_WEBHOOK_URL` (where submissions go: an email
      service, n8n/Zapier/Make, or a CRM) and `PUBLIC_TURNSTILE_SITE_KEY`. Unset = every submission errors.
    - Add the per-IP rate-limit rule in `docs/LAUNCH.md` (Cloudflare WAF). Not optional for a public form.
+   - **AUTO:** `npm run check:ratelimit -- https://<domain>` must PASS; it proves the rule is live, not just planned.
    - Send one real submission on the preview and confirm it arrived where the client reads it.
 6. **Analytics (only if the client wants it):** prefer cookieless (Cloudflare Web Analytics or Plausible) so no
    consent banner is needed; add its host to `script-src`/`connect-src` in ALL FOUR header files and to the privacy

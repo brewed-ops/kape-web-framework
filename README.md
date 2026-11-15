@@ -58,7 +58,8 @@ Run inside a site folder (the skill runs them for you):
 |---|---|
 | `npm run build && npm run check:dist` | No secrets, source maps or dotfiles in the build; the form works on this host |
 | `npm run check:launch` | No demo content, `[CONFIRM]` placeholders or test keys left before go-live |
-| `npm run check:headers -- https://your-domain` | Every security header is live, grade A or better |
+| `npm run check:headers -- https://your-domain` | The home page answers 200 and every security header is live, grade A or better |
+| `npm run check:ratelimit -- https://your-domain` | The contact form's rate-limit rule is really on (Cloudflare Pages form only) |
 
 ## Good to know
 
@@ -68,6 +69,8 @@ Run inside a site folder (the skill runs them for you):
 - **Never invented facts:** anything the AI does not know (prices, addresses, reviews, legal details) is written as
   `[CONFIRM: ...]`, and `check:launch` blocks the launch until every one is filled in.
 - **Security list:** `starter/docs/SECURITY-CHECKLIST.md` has 97 checks with the file that handles each one.
+  It is a checklist, not 97 automated tests: the scripts above prove what a script can, the starter's code handles
+  others, and the rest you set in the host dashboard or review by hand. Each row says which.
 
 ## Updating
 

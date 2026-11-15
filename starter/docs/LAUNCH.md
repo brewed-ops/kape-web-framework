@@ -32,6 +32,7 @@ Tick each line. Do not launch with an unticked line in "Before launch".
 - [ ] Submit the opt-in form (funnel) the same way.
 - [ ] Failure test: `curl -i -X POST https://your-domain/api/contact -d name=a` returns 403 (no Origin) and nothing reaches the destination.
 - [ ] Add a Cloudflare WAF rate-limiting rule for `/api/contact` (for example 5 requests per minute per IP). The function has Turnstile and a size cap but no per-IP counter.
+- [ ] `npm run check:ratelimit -- https://your-domain` prints **PASS** (it sends 15 empty submissions and expects the rule to block one; nothing reaches the destination).
 - [ ] The destination of the webhook has its own backup and limited access.
 
 ### Security housekeeping

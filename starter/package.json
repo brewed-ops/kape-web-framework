@@ -13,6 +13,7 @@
     "check:dist": "node scripts/check-dist.mjs",
     "check:launch": "node scripts/check-dist.mjs --launch",
     "check:headers": "node scripts/check-headers.mjs",
+    "check:ratelimit": "node scripts/check-ratelimit.mjs",
     "new:feature": "node scripts/new-feature.mjs",
     "make:og": "node scripts/make-og.mjs"
   },

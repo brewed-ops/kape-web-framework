@@ -22,6 +22,12 @@ if (home.error) {
   console.error(`Could not reach ${origin}: ${home.error}`);
   process.exit(2);
 }
+// Headers on a redirect or an error page say nothing about the real page.
+if (home.status !== 200) {
+  const loc = home.headers.get('location');
+  console.error(`check-headers: ${origin}/ returned HTTP ${home.status}${loc ? ` -> ${loc}` : ''}, not 200. ${loc ? 'Run it again with the final address.' : 'Fix the home page first.'}`);
+  process.exit(1);
+}
 const h = (name) => home.headers.get(name) ?? '';
 const rows = [];
 const add = (name, points, ok, note) => rows.push({ name, points, ok, note });
@@ -68,7 +74,7 @@ for (const p of ['/.env', '/.git/config', '/backup.zip']) {
 }
 
 // Cache headers on a hashed asset
-const html = home.status === 200 ? await home.text() : '';
+const html = await home.text();
 const asset = /["'](\/_astro\/[^"']+\.(?:css|js|woff2))["']/.exec(html)?.[1];
 if (asset) {
   const r = await get(asset);
@@ -87,5 +93,5 @@ for (const r of rows) console.log(`  ${r.ok ? 'PASS' : 'FAIL'}  ${r.name.padEnd(
 console.log(`\nScore ${score}/${total} (${pct}%)  Grade: ${grade}\n`);
 if (grade !== 'A+' && grade !== 'A') {
   console.log('Below A. Fix the FAIL rows, redeploy, run again.\n');
-  process.exit(1);
+  process.exitCode = 1; // not process.exit(): on Windows it crashes Node while fetch sockets are still closing
 }

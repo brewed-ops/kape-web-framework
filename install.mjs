@@ -1,7 +1,7 @@
 // Installs the kape-web skill into Claude Code and remembers where this framework folder lives.
 // Usage (from this folder): node install.mjs
 // Safe to run again after you download a newer version: it replaces the installed skill with this one.
-import { cpSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,15 +25,18 @@ if (need && older(process.versions.node, need)) {
 }
 
 const updating = existsSync(dest)
-rmSync(dest, { recursive: true, force: true })
-cpSync(src, dest, { recursive: true })
-writeFileSync(join(dest, 'HOME'), home + '\n')
+// Build the new copy beside the old one and swap only after it checks out, so a failed copy never leaves you with no skill.
+const tmp = dest + '.new'
+rmSync(tmp, { recursive: true, force: true })
+cpSync(src, tmp, { recursive: true })
+writeFileSync(join(tmp, 'HOME'), home + '\n')
 
-// Prove it landed before saying so.
-if (!existsSync(join(dest, 'SKILL.md')) || readFileSync(join(dest, 'HOME'), 'utf8').trim() !== home) {
+if (!existsSync(join(tmp, 'SKILL.md')) || readFileSync(join(tmp, 'HOME'), 'utf8').trim() !== home) {
   console.error('Install check failed: the skill did not copy. Nothing else was changed.')
   process.exit(1)
 }
+rmSync(dest, { recursive: true, force: true })
+renameSync(tmp, dest)
 
 console.log(`${updating ? 'Updated' : 'Installed'} the kape-web skill in ${dest}`)
 console.log(`Framework folder saved: ${home}`)
