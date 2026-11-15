@@ -16,15 +16,17 @@ Tick each line. Do not launch with an unticked line in "Before launch".
 - [ ] Domain points at the host. DNS records checked (A/CNAME, MX if email, SPF/DKIM/DMARC for the sending domain).
 - [ ] HTTPS certificate active; HTTP redirects to HTTPS; `www` redirects to the one canonical host.
 - [ ] `npm run check:headers -- https://your-domain` prints grade **A or A+**.
+- [ ] Second opinion on the headers from a scanner this project did not write: run the domain through MDN HTTP Observatory (https://developer.mozilla.org/en-US/observatory) and note the grade in `docs/HANDOFF.md`. `check:headers` is this starter grading itself.
 - [ ] `/.env`, `/.git/config`, `/backup.zip` return 404 (the header check probes these).
 
 ### Build and quality
 - [ ] `npm run build` passes with the real `PUBLIC_TURNSTILE_SITE_KEY` (not the `1x000...` test key).
 - [ ] `npm run check:dist` prints PASS.
-- [ ] CI is green on the commit you deploy (`astro check`, build, check:dist, audit, gitleaks, Lighthouse).
+- [ ] CI is green on the commit you deploy (`astro check`, tests, build, check:dist, audit, gitleaks, Lighthouse on every page).
 - [ ] Lighthouse on the live URL: performance 90+, accessibility, best practices and SEO 100.
 - [ ] 404 page works (open a made-up URL).
-- [ ] Keyboard test: Tab through the home page, the skip link appears, every focus ring is visible, the mobile menu opens.
+- [ ] Keyboard test, every page: Tab from the top to the footer. The skip link appears first, every focus ring is visible, nothing traps the focus, the mobile menu opens and closes, and the form can be filled and sent without a mouse.
+- [ ] Screen-reader test, home and contact pages (NVDA on Windows or VoiceOver on Mac, both free): headings read in order, every image and icon button has a name, form fields announce their label and their error. Lighthouse 100 only covers what a machine can see.
 
 ### Forms, end to end
 - [ ] Turnstile secret and site key are the real ones; `CONTACT_WEBHOOK_URL` is set in the host dashboard.

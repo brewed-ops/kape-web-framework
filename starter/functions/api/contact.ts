@@ -10,7 +10,7 @@
     5. body          read with a hard byte cap, parse
     6. honeypot      `company_website` filled        -> pretend success, do nothing
     7. validate      name / email / message          -> 422
-    8. Turnstile     token verified with TURNSTILE_SECRET -> 400
+    8. Turnstile     token verified with TURNSTILE_SECRET, and solved on this site's hostname -> 400
     9. forward       JSON to CONTACT_WEBHOOK_URL with a timeout -> 502 on failure
 
   Environment (set in the Cloudflare Pages dashboard, never in the repo):
@@ -32,7 +32,7 @@ interface Ctx {
 
 const MAX_BODY_BYTES = 10 * 1024;
 const TIMEOUT_MS = 5000;
-const THANK_YOU = '/thank-you/'; // keep in sync with site.forms.thankYou in src/config/site.ts
+const THANK_YOU = '/thank-you/'; // must equal site.forms.thankYou in src/config/site.ts (npm test fails if they differ)
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,}$/;
 
 const BASE_HEADERS: Record<string, string> = {
@@ -125,7 +125,11 @@ function parseFields(raw: string, contentType: string): Record<string, unknown> 
   return out;
 }
 
-async function verifyTurnstile(secret: string, token: string, ip: string | null): Promise<boolean> {
+// Cloudflare's published dummy secrets (always pass / always fail / already spent). They answer with hostname "example.com".
+const TEST_SECRET = /^[123]x0{10,}AA$/;
+
+/** True only if Cloudflare confirms the token AND says the widget was solved on this site, not borrowed from another. */
+async function verifyTurnstile(secret: string, token: string, ip: string | null, host: string): Promise<boolean> {
   const body = new URLSearchParams({ secret, response: token });
   if (ip) body.set('remoteip', ip);
   try {
@@ -135,8 +139,9 @@ async function verifyTurnstile(secret: string, token: string, ip: string | null)
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (!res.ok) return false;
-    const data = (await res.json()) as { success?: boolean };
-    return data.success === true;
+    const data = (await res.json()) as { success?: boolean; hostname?: string };
+    if (data.success !== true) return false;
+    return data.hostname === host || TEST_SECRET.test(secret);
   } catch {
     return false;
   }
@@ -190,7 +195,7 @@ export const onRequest = async ({ request, env }: Ctx): Promise<Response> => {
   if (!secret) return fail(500, html);
   const token = clean(fields['cf-turnstile-response'], false);
   if (token === '' || token.length > 2048) return fail(400, html);
-  const human = await verifyTurnstile(secret, token, request.headers.get('CF-Connecting-IP'));
+  const human = await verifyTurnstile(secret, token, request.headers.get('CF-Connecting-IP'), new URL(expected).hostname);
   if (!human) return fail(400, html);
 
   // 9. forward to the webhook

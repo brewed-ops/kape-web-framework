@@ -60,7 +60,7 @@ Run inside a site folder (the skill runs them for you):
 | `npm run check:launch` | No demo content, `[CONFIRM]` placeholders or test keys left before go-live |
 | `npm run check:headers -- https://your-domain` | The home page answers 200 and every security header is live, grade A or better |
 | `npm run check:ratelimit -- https://your-domain` | The contact form's rate-limit rule is really on (Cloudflare Pages form only) |
-| `npm test` | The two live checks above fail when they should (redirects, error pages, missing headers, no rate limit). Runs in CI |
+| `npm test` | 36 tests: the contact form refuses what it should (wrong site, oversized, bad email, no or borrowed anti-spam token) and forwards only good submissions; the security headers are the same in all four host files; the two live checks above fail when they should. Runs in CI |
 
 ## Good to know
 
