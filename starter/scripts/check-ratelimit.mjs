@@ -1,6 +1,8 @@
 // check-ratelimit.mjs <url> - proves the per-IP rate-limit rule on /api/contact is live. Exits 1 if it is not.
 // Usage: npm run check:ratelimit -- https://example.com
-// Sends 15 submissions that fail validation (422), so nothing is ever forwarded to the webhook.
+// Sends 15 submissions shaped like the real form (name, email, message) but with no Turnstile token, so the
+// function rejects each one (400) and nothing is ever forwarded to the webhook.
+// It proves a rule limits repeated posts from one address. It does not prove every other firewall rule is right.
 // Zero dependencies (Node fetch).
 const input = process.argv[2];
 if (!input) {
@@ -21,7 +23,7 @@ for (let i = 1; i <= TRIES; i++) {
       redirect: 'manual',
       signal: AbortSignal.timeout(15000),
       headers: { Origin: origin, 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'name=a',
+      body: new URLSearchParams({ form: 'contact', name: 'Rate limit check', email: 'ratelimit-check@example.com', message: 'Automated rate-limit check. Safe to ignore.' }).toString(),
     });
     await r.arrayBuffer();
   } catch (e) {

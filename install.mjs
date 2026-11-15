@@ -35,8 +35,19 @@ if (!existsSync(join(tmp, 'SKILL.md')) || readFileSync(join(tmp, 'HOME'), 'utf8'
   console.error('Install check failed: the skill did not copy. Nothing else was changed.')
   process.exit(1)
 }
-rmSync(dest, { recursive: true, force: true })
-renameSync(tmp, dest)
+// Swap: park the old copy, move the new one in, and put the old one back if that move fails.
+const old = dest + '.old'
+rmSync(old, { recursive: true, force: true })
+if (updating) renameSync(dest, old)
+try {
+  renameSync(tmp, dest)
+} catch (e) {
+  if (updating) renameSync(old, dest)
+  rmSync(tmp, { recursive: true, force: true })
+  console.error(`Install failed (${e.code ?? e.message}). ${updating ? 'Your previous version is still installed.' : 'Nothing was installed.'} Close Claude Code and run this again.`)
+  process.exit(1)
+}
+rmSync(old, { recursive: true, force: true })
 
 console.log(`${updating ? 'Updated' : 'Installed'} the kape-web skill in ${dest}`)
 console.log(`Framework folder saved: ${home}`)
