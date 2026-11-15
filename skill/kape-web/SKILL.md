@@ -35,7 +35,7 @@ is missing: `npx skills add benjitaylor/skills --skill stageshow`.
    "From scratch, or from an inspiration? If inspiration, paste the screenshot or link, or describe it."
    - Inspiration: read the image/page (screenshot -> Read; URL -> defuddle, or Playwright for JS sites). Write down
      what to KEEP (layout moves, type scale, density, one signature interaction), what to DROP (their brand, copy,
-     stock photos, anything on the ban list). Never copy their logo, copy or exact layout; take the decisions.
+     stock photos, anything on the slop list). Never copy their logo, copy or exact layout; take the decisions.
    - Scratch: ask the 4 facts below and move on.
 2. **Facts (one message, all at once):** business + what the site must make visitors do; site type (portfolio /
    landing / funnel / website - recommend one if unsure, `references/site-types.md`); pages; brand assets (logo,
@@ -65,6 +65,12 @@ is missing: `npx skills add benjitaylor/skills --skill stageshow`.
 6. **YOU - approve the wireframe.** Moving blocks is free here; after design it costs a day.
 
 ## Phase 3 - Design and build (repeat per section)
+
+**The design is the user's call, not yours.** They are the web developer: the look, the layout and the taste are
+theirs. Say this once at the start of the phase, then ask what they already have in mind (brand, references, fonts,
+a layout) and build that. The design rules and the slop list are reminders that keep the result from looking
+AI-made; Stageshow is a guide for the interface parts. Neither one chooses the design, and a rule never beats a
+choice the user has stated.
 
 Before the first section: a design brief in one paragraph (direction, type, spacing, one motif), then tokens in
 `src/styles/tokens.css` - the ONLY place hex values live. One accent. Rules: `references/design-rules.md`.
@@ -117,14 +123,14 @@ Per section, in order:
 - Websites only. Logins, dashboards, user data -> stop: that is a web app (auth, database, sessions), not this skill.
 - Never invent business facts, prices, credentials or reviews: `[CONFIRM: ...]`.
 - No secret in `PUBLIC_` vars or anywhere in `dist/`; `check:dist` failing blocks every deploy.
-- The ban list in `references/design-rules.md` is a gate, not a suggestion. Check the screenshot against it before
-  showing anyone.
+- Check every screenshot against the slop list in `references/design-rules.md` before showing anyone, and tell the
+  user about each hit. Fix it by default; keep it if they chose it on purpose. The design is their call.
 - When a site-specific fix proves universal, fold it into `starter/` (and this skill) the same session.
 
 ## Files
 - `references/stack-matrix.md` - which stack for which site, with costs.
 - `references/site-types.md` - the 4 site types: sections, wireframe standards, conversion rules.
-- `references/design-rules.md` - look, spacing, type, motion, the ban list, Stageshow usage.
+- `references/design-rules.md` - whose call the design is, look, spacing, type, motion, the slop list, Stageshow usage.
 - `references/security.md` - scope table, the 97-point list, when to run the full audit prompt.
 - `references/seo.md` - schema map, on-page rules, claude-seo commands by phase.
 - `references/deploy.md` - the deploy gate: preflight, rollback, deploy order, prove live.

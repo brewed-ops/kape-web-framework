@@ -1,5 +1,13 @@
 # Design rules
 
+## Whose call this is
+The design belongs to the web developer and their client. The look, the layout and the taste are their choice.
+Everything in this file is a reminder, there so the result does not come out looking AI-made:
+- If the developer has decided something (a font, a color, a layout, even an item on the slop list), build it their
+  way. Never overrule a stated choice with a rule from this file.
+- Where they have not decided, use these as the default and say which default you used.
+- Stageshow is a guide for the interface parts of a design (screens, dashboards, flows). It does not pick the look.
+
 ## Look
 - The client's brand first. No brand yet: propose one palette (ground, ink, ONE accent) + one type family, show it on
   the hero before building more. KAPE's own pages: warm ink #12100E, paper #F6F2EA, one amber #F0A726, film grain.
@@ -21,12 +29,14 @@
   machine without a GPU it blocks the page for seconds and sinks the Lighthouse score.
 
 ## Real interfaces (Stageshow)
-Any section that shows a product, a dashboard, a process or "how it works" gets a Stageshow demo (still or 10-16s
-loop) instead of an icon grid: read the stageshow skill, copy the closest gold example, real logos via Simple Icons
+For a section that shows a product, a dashboard, a process or "how it works", reach for a Stageshow demo (still or 10-16s
+loop) before an icon grid, unless the developer wants it another way: read the stageshow skill, copy the closest gold example, real logos via Simple Icons
 (CC0) or the kit's BrandMark, `compact` design for phones, `poster` for reduced motion. Film with
 `node ~/.claude/skills/stageshow/scripts/film.mjs <url> --gate`.
 
-## The ban list (any hit = fix before showing)
+## The slop list (tell the developer about every hit; they decide)
+These are the things that make a page look AI-made. Fix them by default. If the developer chose one on purpose,
+keep it and move on.
 - Eyebrow / kicker labels (tiny uppercase tracked text above a heading)
 - Purple-to-blue or any purple gradient; gradient text; neon glows; oversaturated accents beside it
 - Colored left-border accent cards

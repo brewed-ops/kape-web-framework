@@ -64,6 +64,10 @@ Run inside a site folder (the skill runs them for you):
 
 ## Good to know
 
+- **The design is yours.** This framework does not pick how your site looks. You are the web developer: the look,
+  the layout and the taste are your choice (and your client's). The design rules and the "no AI slop" list are
+  reminders so the result does not look AI-made, and Stageshow is a guide for the interface parts. If you want
+  something the list warns about, say so and the AI builds it your way.
 - **Contact form hosting:** the starter's form handler runs on **Cloudflare Pages** (free). On Vercel, Netlify or
   your own server, point `site.forms.action` in `src/config/site.ts` at a form service instead; `check:dist` stops
   the build if you forget.
